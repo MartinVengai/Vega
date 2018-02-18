@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using vega.Controllers.Resources;
-using vega.Models;
+using Vega.Controllers.Resources;
+using Vega.Core.Models;
 
-namespace vega.Mapping
+namespace Vega.Mapping
 {
     public class MappingProfile : Profile
     {
@@ -12,17 +12,22 @@ namespace vega.Mapping
         {
             CreateMap<Make, MakeResource>();
             CreateMap<MakeResource, Make>();
-            CreateMap<Model, ModelResource>();
-            CreateMap<ModelResource, Model>();
-            CreateMap<Feature, FeatureResource>();
-            CreateMap<FeatureResource, Feature>();
-            CreateMap<Vehicle, VehicleResource>()
-                .ForMember(vr => vr.Contact, opt => opt.MapFrom(v => 
-                    new ContactResource { Name = v.ContactName, Email = v.ContactEmail, Phone = v.ContactPhone}))
+            CreateMap<Model, KeyValuePairResource>();
+            CreateMap<KeyValuePairResource, Model>();
+            CreateMap<Feature, KeyValuePairResource>();
+            CreateMap<KeyValuePairResource, Feature>();
+            CreateMap<Vehicle, SaveVehicleResource>()
+                .ForMember(vr => vr.Contact, opt => opt.MapFrom(v => new ContactResource { Name = v.ContactName, Email = v.ContactEmail, Phone = v.ContactPhone}))
                 .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(vf => vf.FeatureId)));
-
+            CreateMap<Vehicle, VehicleResource>()
+                .ForMember(vr => vr.Make, opt => opt.MapFrom(v => v.Model.Make))
+                .ForMember(vr => vr.Contact, opt => opt.MapFrom(v => new ContactResource { Name = v.ContactName, Email = v.ContactEmail, Phone = v.ContactPhone}))
+                .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(vf => new KeyValuePairResource { Id = vf.Feature.Id, Name = vf.Feature.Name })));
+                
+            
+            
             //API Resource to Domain
-            CreateMap<VehicleResource, Vehicle>()
+            CreateMap<SaveVehicleResource, Vehicle>()
                 .ForMember(v => v.Id, opt => opt.Ignore())
                 .ForMember(v => v.ContactName, opt => opt.MapFrom(vr => vr.Contact.Name))
                 .ForMember(v => v.ContactEmail, opt => opt.MapFrom(vr => vr.Contact.Email))

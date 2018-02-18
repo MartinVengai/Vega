@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using vega.Controllers.Resources;
-using vega.Models;
-using vega.Persistence;
+using Vega.Controllers.Resources;
+using Vega.Core.Models;
+using Vega.Persistence;
 
-namespace vega.Controllers
+namespace Vega.Controllers
 {
     public class FeaturesController : Controller
     {
@@ -19,10 +19,10 @@ namespace vega.Controllers
 
         }
         [HttpGet("/api/features")]
-        public IEnumerable<FeatureResource> GetFeatures()
+        public IEnumerable<KeyValuePairResource> GetFeatures()
         {
             var features = context.Features.ToList();
-            return mapper.Map<List<Feature>, List<FeatureResource>>(features);
+            return mapper.Map<List<Feature>, List<KeyValuePairResource>>(features);
         }
 
     }

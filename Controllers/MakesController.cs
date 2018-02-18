@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using vega.Models;
-using vega.Persistence;
+using Vega.Persistence;
 using System;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using vega.Controllers.Resources;
+using Vega.Controllers.Resources;
+using Vega.Core.Models;
 
-namespace vega.Controllers
+namespace Vega.Controllers
 {
     [Route("api/[controller]")]
     public class MakesController : Controller

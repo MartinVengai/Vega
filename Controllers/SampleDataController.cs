@@ -3,24 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using vega.Models;
-using vega.Persistence;
+using Vega.Persistence;
 
 namespace Vega.Controllers
 {
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
-        private readonly VegaDbContext context;
-        public SampleDataController(VegaDbContext context)
-        {
-            this.context = context;
-        }
-        [HttpGet("/api/makess")]
-        public IEnumerable<Make> GetMakes()
-        {
-            return context.Makes.ToList();
-        }
         private static string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
