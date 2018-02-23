@@ -34,7 +34,9 @@ Raven.config('https://3a161757345e430397df6273ee7a80f7@sentry.io/291291').instal
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
+            { path: 'vehicles', component: VehicleFormComponent },
             { path: 'vehicles/new', component: VehicleFormComponent },
+            { path: 'vehicles/:id', component: VehicleFormComponent },
             { path: 'counter', component: CounterComponent },
             { path: 'fetch-data', component: FetchDataComponent },
             { path: '**', redirectTo: 'home' }
