@@ -18,21 +18,22 @@ export class VehicleFormComponent implements OnInit {
   features: any[];
   vehicle: SaveVehicle = {
     id: 0,
-    modelId: 0,
     makeId: 0,
+    modelId: 0,
     isRegistered: false,
     features: [],    
     contact: {
       name: '',
       email: '',
       phone: ''
-    },
+    }
   };
+  
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private vehicleService: VehicleService,
-    private toastyService: ToastyService,  ) {
+    private toastyService: ToastyService) {
 
       route.params.subscribe(p => {
         this.vehicle.id = +p['id'];
@@ -52,9 +53,10 @@ export class VehicleFormComponent implements OnInit {
       this.makes = data[0];
       this.features = data[1];
 
-      if (this.vehicle.id)
+      if (this.vehicle.id) {
         this.setVehicle(data[2]);
         this.populateModels();
+      }
     }, err => {
         if (err.status == 404)
           this.router.navigate(['/home']);
@@ -67,7 +69,7 @@ export class VehicleFormComponent implements OnInit {
     this.vehicle.modelId = v.model.id;
     this.vehicle.isRegistered = v.isRegistered;
     this.vehicle.contact = v.contact;
-    this.features = _.pluck(v.features, 'id');
+    this.vehicle.features = _.pluck(v.features, 'id');
   }
 
   onMakeChange() {
@@ -101,8 +103,10 @@ export class VehicleFormComponent implements OnInit {
             timeout: 5000
           });
         });
-    } else {
-      this.vehicleService.create(this.vehicle).subscribe(x => console.log(x));
+    } 
+    else {
+      this.vehicleService.create(this.vehicle)
+        .subscribe(x => console.log(x));
     }
   }
 
@@ -110,7 +114,7 @@ export class VehicleFormComponent implements OnInit {
     if (confirm("Are you sure?")) {
       this.vehicleService.delete(this.vehicle.id)
         .subscribe(x => {
-          this.router.navigate(['/home']);
+          this.router.navigate(['/vehicles']);
         });
     }
   }
