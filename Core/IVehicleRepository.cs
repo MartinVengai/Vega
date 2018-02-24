@@ -6,7 +6,7 @@ namespace Vega.Core
 {
     public interface IVehicleRepository
     {
-        Task<IEnumerable<Vehicle>> GetVehiclesAsync();
+        Task<IEnumerable<Vehicle>> GetVehiclesAsync(Filter filter);
         Task<Vehicle> GetVehicleAsync(int id, bool includeRelated=true);
         void Add(Vehicle vehicle);
         void Remove(Vehicle vehicle);

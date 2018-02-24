@@ -11,4 +11,8 @@ namespace Vega.Controllers.Resources
             Models = new Collection<KeyValuePairResource>();
         }
     }
+
+    public class ModelResource : KeyValuePairResource
+    {
+    }
 }

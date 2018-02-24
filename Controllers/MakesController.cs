@@ -27,5 +27,12 @@ namespace Vega.Controllers
             var makes = context.Makes.Include(m => m.Models).ToList();
             return mapper.Map<List<Make>, List<MakeResource>>(makes);
         }
+
+        [HttpGet("/api/models")]
+        public IEnumerable<KeyValuePairResource> GetModels()
+        {
+            var models = context.Models.ToList();
+            return mapper.Map<List<Model>, List<KeyValuePairResource>>(models);
+        }
     }
 }
