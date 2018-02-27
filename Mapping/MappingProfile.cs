@@ -11,6 +11,7 @@ namespace Vega.Mapping
         public MappingProfile()
         {
             CreateMap<Make, MakeResource>();
+            CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));
             CreateMap<Model, KeyValuePairResource>();
             CreateMap<Feature, KeyValuePairResource>();
             CreateMap<Vehicle, SaveVehicleResource>()
@@ -22,7 +23,7 @@ namespace Vega.Mapping
                 .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(vf => new KeyValuePairResource { Id = vf.Feature.Id, Name = vf.Feature.Name })));
             
             //API Resource to Domain
-            CreateMap<FilterResource, Filter>();
+            CreateMap<VehicleQueryResource, VehicleQuery>();
             CreateMap<KeyValuePairResource, Model>();
             CreateMap<KeyValuePairResource, Feature>();
             CreateMap<MakeResource, Make>();

@@ -6,7 +6,7 @@
 <div class="well well-sm">
   <div class="form-group">
     <label for="make">Make</label>
-    <select name="make" id="make" class="form-control" [(ngModel)]="filter.makeId" (change)="onFilterChange()" >
+    <select name="make" id="make" class="form-control" [(ngModel)]="query.makeId" (change)="onFilterChange()" >
       <option value=""></option>
       <option *ngFor="let m of makes" value="{{m.id}}"> {{ m.name }} </option>
   </select>
@@ -16,14 +16,22 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Id</th>
-      <th>Make</th>
-      <th>Model</th>
-      <th>Contact Name</th>
-      <th>View</th>
+      <th *ngFor="let c of columns" style="cursor: pointer;">
+        <div *ngIf="c.isSortable" (click)="sortBy(c.key)">
+          {{ c.title }} 
+          <i *ngIf="query.sortBy === c.key"
+            class="fa"
+            [class.fa-sort-asc]="query.isSortAscending"
+            [class.fa-sort-desc]="!query.isSortAscending">
+          </i> 
+        </div>
+        <div *ngIf="!c.isSortable">
+          {{ c.title }}
+        </div>
+      </th>
     </tr>
   </thead>
-  <tbody *ngFor="let v of vehicles" >
+  <tbody *ngFor="let v of queryResult.items" >
     <tr>
       <td>{{ v.id }}</td>
       <td>{{ v.make.name }}</td>
@@ -33,3 +41,4 @@
     </tr>
   </tbody>
 </table>
+<app-pagination [total-items]="10" [page-size]="queryResult.totalItems" (page-changed)="onPageChange($event)" ></app-pagination>

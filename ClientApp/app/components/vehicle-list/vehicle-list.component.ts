@@ -8,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./vehicle-list.component.css']
 })
 export class VehicleListComponent implements OnInit {
-  vehicles: Vehicle[];
+  private readonly PAGE_SIZE = 3;
+
+  queryResult: any = {};
   makes: any[];
-  filter: any = {};
+  query: any = {
+    pageSize: this.PAGE_SIZE
+  };
+  columns = [
+    { title: 'Id', key: 'id' },
+    { title: 'Contact Name', key: 'contactName', isSortable: true },
+    { title: 'Make', key: 'make', isSortable: true },
+    { title: 'Model', key: 'model', isSortable: true },
+    {  }
+  ];
 
   constructor(private vehicleService: VehicleService) { }
 
@@ -19,17 +30,40 @@ export class VehicleListComponent implements OnInit {
   }
 
   onFilterChange() {
+    this.query.page = 1;
     this.populateVehicles();
   }
 
-  populateVehicles() {
-    this.vehicleService.getVehicles(this.filter).subscribe(vehicles => this.vehicles = vehicles);
+  private populateVehicles() {
     this.vehicleService.getMakes().subscribe(makes => this.makes = makes);
+    this.vehicleService.getVehicles(this.query)
+      .subscribe(result => this.queryResult = result);
+    
   }
 
   resetFilter() {
-    this.filter = {};
-    this.onFilterChange();
+    this.query = {
+      page: 1,
+      pageSize: this.PAGE_SIZE
+    };
+
+    this.populateVehicles();
+  }
+
+  sortBy(columnName) {
+    if (this.query.sortBy === columnName) {
+      this.query.isSortAscending = !this.query.isSortAscending;
+     } 
+     else {
+      this.query.sortBy = columnName;
+      this.query.isSortAscending = true;
+     }
+     this.populateVehicles();
+  }
+
+  onPageChange(page) {
+    this.query.page = page;
+    this.populateVehicles();
   }
 
 }
