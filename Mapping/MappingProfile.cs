@@ -10,6 +10,7 @@ namespace Vega.Mapping
     {
         public MappingProfile()
         {
+            CreateMap<Photo, PhotoResource>();
             CreateMap<Make, MakeResource>();
             CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));
             CreateMap<Model, KeyValuePairResource>();
